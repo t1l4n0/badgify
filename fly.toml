@@ -1,0 +1,30 @@
+# fly.toml app configuration file
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+
+app = "shopify-billing-1751058813"
+primary_region = "fra"
+
+[env]
+NODE_ENV = "production"
+PORT = "8080"
+DATABASE_URL = "file:/data/prod.db"
+
+[http_service]
+auto_start_machines = true
+auto_stop_machines = true
+force_https = true
+internal_port = 8080
+min_machines_running = 0
+processes = [ "app" ]
+
+[mounts]
+source = "data"
+destination = "/data"
+
+[[vm]]
+cpu_kind = "shared"
+cpus = 1
+memory = "1gb"
+
+[deploy]
+release_command = "npx prisma db push"

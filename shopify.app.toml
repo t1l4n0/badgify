@@ -1,0 +1,44 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "Billing App"
+client_id = "f08ad740c5b93c05f8f188699eb5723c"
+application_url = "https://shopify-billing-1751058813.fly.dev"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://shopify-billing-1751058813.fly.dev/auth/callback",
+  "https://shopify-billing-1751058813.fly.dev/auth/shopify/callback",
+  "https://shopify-billing-1751058813.fly.dev/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-01"
+
+[[webhooks.subscriptions]]
+topics = [ "app/uninstalled" ]
+uri = "https://shopify-billing-1751058813.fly.dev/webhooks/app/uninstalled"
+
+[[webhooks.subscriptions]]
+topics = [ "customers/data_request" ]
+uri = "https://shopify-billing-1751058813.fly.dev/webhooks/customers/data_request"
+
+[[webhooks.subscriptions]]
+topics = [ "customers/redact" ]
+uri = "https://shopify-billing-1751058813.fly.dev/webhooks/customers/redact"
+
+[[webhooks.subscriptions]]
+topics = [ "shop/redact" ]
+uri = "https://shopify-billing-1751058813.fly.dev/webhooks/shop/redact"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = ""
+include_config_on_deploy = true

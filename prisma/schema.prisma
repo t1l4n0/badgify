@@ -1,0 +1,173 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id          String    @id
+  shop        String
+  state       String
+  isOnline    Boolean   @default(false)
+  scope       String?
+  expires     DateTime?
+  accessToken String
+  userId      BigInt?
+  firstName   String?
+  lastName    String?
+  email       String?
+  accountOwner Boolean  @default(false)
+  locale      String?
+  collaborator Boolean? @default(false)
+  emailVerified Boolean? @default(false)
+}
+
+model Subscription {
+  id                String   @id @default(cuid())
+  shop              String   @unique
+  subscriptionId    String?  // Shopify subscription ID
+  status            String   @default("pending") // pending, active, cancelled, expired
+  planName          String   @default("Basic Plan")
+  price             Float    @default(9.99)
+  currency          String   @default("USD")
+  billingCycle      String   @default("EVERY_30_DAYS")
+  trialDays         Int      @default(3)
+  trialEndsAt       DateTime?
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  shop        String
+  name        String
+  description String?
+  
+  // Badge Design
+  shape       String   @default("rectangle") // rectangle, circle, pill, ribbon, burst, tag, eclipse, custom
+  text        String
+  textColor   String   @default("#FFFFFF")
+  backgroundColor String @default("#007ACC")
+  borderColor String?
+  borderWidth Int      @default(0)
+  
+  // Typography
+  fontSize    Int      @default(12)
+  fontFamily  String   @default("Arial")
+  fontWeight  String   @default("normal")
+  textAlign   String   @default("center")
+  
+  // Dimensions
+  width       Int?
+  height      Int?
+  padding     Int      @default(8)
+  borderRadius Int     @default(4)
+  
+  // Advanced Styling
+  gradient    String?  // JSON string for gradient config
+  shadow      String?  // JSON string for shadow config
+  animation   String?  // JSON string for animation config
+  customCSS   String?
+  customSVG   String?  // For custom SVG shapes
+  
+  // Assignment Rules
+  assignmentType String @default("manual") // manual, collection, tag, product_type, vendor
+  assignmentRules String? // JSON string with assignment criteria
+  
+  // Display Settings
+  position    String   @default("top-right") // top-left, top-right, bottom-left, bottom-right, center
+  zIndex      Int      @default(10)
+  isActive    Boolean  @default(true)
+  
+  // Metadata
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  badgeAssignments BadgeAssignment[]
+  
+  @@index([shop])
+}
+
+model BadgeAssignment {
+  id        String   @id @default(cuid())
+  shop      String
+  badgeId   String
+  productId String
+  
+  // Assignment metadata
+  assignedBy String   @default("system") // system, manual
+  assignedAt DateTime @default(now())
+  isActive   Boolean  @default(true)
+  
+  // Relations
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  
+  @@unique([shop, badgeId, productId])
+  @@index([shop, productId])
+  @@index([badgeId])
+}
+
+model BadgeTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String   @default("general") // general, sale, new, featured, bestseller, custom
+  
+  // Template Design (same fields as Badge)
+  shape       String   @default("rectangle")
+  text        String
+  textColor   String   @default("#FFFFFF")
+  backgroundColor String @default("#007ACC")
+  borderColor String?
+  borderWidth Int      @default(0)
+  fontSize    Int      @default(12)
+  fontFamily  String   @default("Arial")
+  fontWeight  String   @default("normal")
+  textAlign   String   @default("center")
+  width       Int?
+  height      Int?
+  padding     Int      @default(8)
+  borderRadius Int     @default(4)
+  gradient    String?
+  shadow      String?
+  animation   String?
+  customCSS   String?
+  customSVG   String?
+  
+  // Template metadata
+  isPublic    Boolean  @default(true)
+  usageCount  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BadgeAnalytics {
+  id          String   @id @default(cuid())
+  shop        String
+  badgeId     String
+  productId   String
+  
+  // Analytics data
+  impressions Int      @default(0)
+  clicks      Int      @default(0)
+  conversions Int      @default(0)
+  
+  // Time tracking
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([shop, badgeId, productId, date])
+  @@index([shop])
+  @@index([badgeId])
+}
