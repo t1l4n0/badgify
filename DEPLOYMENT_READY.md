@@ -34,6 +34,7 @@ flyctl secrets set SHOPIFY_API_KEY=your_real_api_key
 flyctl secrets set SHOPIFY_API_SECRET=your_real_api_secret
 flyctl secrets set SHOPIFY_APP_URL=https://your-app.fly.dev
 flyctl secrets set SESSION_SECRET=your_secure_session_secret
+flyctl secrets set DATABASE_URL=file:/data/prod.db
 ```
 
 **4. Volume für Datenbank erstellen:**

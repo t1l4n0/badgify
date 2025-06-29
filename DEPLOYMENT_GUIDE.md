@@ -58,6 +58,7 @@ flyctl secrets set SHOPIFY_APP_URL="https://your-app-name.fly.dev"
 flyctl secrets set SESSION_SECRET="$(openssl rand -base64 32)"
 
 # Produktionsumgebung
+flyctl secrets set DATABASE_URL="file:/data/prod.db"
 flyctl secrets set NODE_ENV="production"
 ```
 

@@ -287,6 +287,7 @@ fly launch
 fly secrets set SHOPIFY_API_KEY=your_api_key
 fly secrets set SHOPIFY_API_SECRET=your_api_secret
 fly secrets set SHOPIFY_APP_URL=https://your-app.fly.dev
+fly secrets set DATABASE_URL=file:/data/prod.db
 
 # Deployen
 fly deploy

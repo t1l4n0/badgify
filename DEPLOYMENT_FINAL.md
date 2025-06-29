@@ -19,6 +19,7 @@ flyctl secrets set \
     SHOPIFY_API_SECRET="temp_secret_replace_with_real" \
     SHOPIFY_APP_URL="https://shopify-billing-1751058813.fly.dev" \
     SESSION_SECRET="$(openssl rand -base64 32)" \
+    DATABASE_URL="file:/data/prod.db" \
     NODE_ENV="production" \
     --app shopify-billing-1751058813
 ```
