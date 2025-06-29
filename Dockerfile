@@ -16,17 +16,8 @@ RUN npm ci --omit=dev && npm cache clean --force
 # Copy source code
 COPY . .
 
-# Generate Prisma client with correct binary targets
-RUN npx prisma generate
-
 # Build the application
 RUN npm run build
-
-# Remove devDependencies after build to reduce image size
-RUN npm prune --production
-
-# Regenerate Prisma client for production (ensures correct binaries)
-RUN npx prisma generate
 
 # Expose port
 EXPOSE 8080

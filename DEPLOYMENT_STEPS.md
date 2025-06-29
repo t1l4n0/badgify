@@ -41,6 +41,7 @@ flyctl secrets set SHOPIFY_API_KEY="temp_key"
 flyctl secrets set SHOPIFY_API_SECRET="temp_secret"
 flyctl secrets set SHOPIFY_APP_URL="https://$(flyctl info --json | jq -r '.Hostname')"
 flyctl secrets set SESSION_SECRET="$(openssl rand -base64 32)"
+flyctl secrets set DATABASE_URL="file:/data/prod.db"
 flyctl secrets set NODE_ENV="production"
 ```
 
