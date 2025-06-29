@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Finales Deployment für shopify-billing-1751058813
-# Mit korrekter Client ID: f08ad740c5b93c05f8f188699eb5723c
+# Mit korrekter Client ID: YOUR_SHOPIFY_API_KEY
 
 set -e
 
 echo "🚀 Finales Deployment für shopify-billing-1751058813"
-echo "Client ID: f08ad740c5b93c05f8f188699eb5723c"
+echo "Client ID: YOUR_SHOPIFY_API_KEY"
 echo "=================================================="
 
 # Volume erstellen (falls nicht vorhanden)
@@ -16,7 +16,7 @@ flyctl volumes create data --size 1 --app shopify-billing-1751058813 || echo "�
 # Umgebungsvariablen mit echter Client ID setzen
 echo "🔐 Setze Umgebungsvariablen..."
 flyctl secrets set \
-    SHOPIFY_API_KEY="f08ad740c5b93c05f8f188699eb5723c" \
+    SHOPIFY_API_KEY="YOUR_SHOPIFY_API_KEY" \
     SHOPIFY_APP_URL="https://shopify-billing-1751058813.fly.dev" \
     SESSION_SECRET="$(openssl rand -base64 32)" \
     NODE_ENV="production" \

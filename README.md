@@ -99,6 +99,9 @@ DATABASE_URL="file:./dev.db"
 SESSION_SECRET=your_session_secret_here
 ```
 
+> **Hinweis**: Hinterlege deine echten Shopify-Schlüssel über Secrets oder
+> Umgebungsvariablen, z.B. mit `fly secrets set SHOPIFY_API_KEY`.
+
 ### 3. Datenbank einrichten
 
 ```bash
