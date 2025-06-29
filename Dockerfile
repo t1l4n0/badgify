@@ -11,7 +11,7 @@ RUN apk add --no-cache openssl curl libc6-compat
 COPY package*.json ./
 
 # Install ALL dependencies (including devDependencies for build)
-RUN npm ci && npm cache clean --force
+RUN npm ci --omit=dev && npm cache clean --force
 
 # Copy source code
 COPY . .
